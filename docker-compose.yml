@@ -1,0 +1,36 @@
+version: '3.4'
+
+services:
+  phoenix:
+    build: .
+    environment:
+      PG_USER: postgres
+      PG_PASSWORD: postgres
+      PG_DATABASE: rumbl
+      PG_PORT: 5432
+      PG_HOST: db
+    volumes:
+      - ./app:/app
+    ports:
+      - "4000:4000"
+    depends_on:
+      - db
+    command:
+      - /entrypoint.sh
+    working_dir: /app
+
+  db:
+    image: "postgres:9.6.3"
+    environment:
+      # Set user/password for Postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      # Set a path where Postgres should store the data
+      PGDATA: /var/lib/postgresql/data/pgdata
+    restart: always
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+# Define the volumes
+volumes:
+  pgdata:

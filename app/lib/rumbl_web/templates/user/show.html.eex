@@ -1,0 +1,7 @@
+<section class="phx-hero">
+  <h1>Showing user</h1>
+
+  <%= render "user.html", user: @user %>
+</section>
+
+

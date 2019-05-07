@@ -2,6 +2,7 @@ defmodule Rumbl.Accounts do
   @moduledoc """
     Accounts context to handle common actions
   """
+  import Ecto.Query
 
   alias Rumbl.Accounts.User
   alias Rumbl.Repo
@@ -40,6 +41,26 @@ defmodule Rumbl.Accounts do
     %User{}
     |> User.registration_changeset(attrs)
     |> Repo.insert()
+  end
+
+  def get_user_by_email(email) do
+    from(u in User, join: c in assoc(u, :credential), where: c.email == ^email)
+    |> Repo.one()
+    |> Repo.preload(:credential)
+  end
+
+  def authenticate_by_email_and_pass(email, pass) do
+    user = get_user_by_email(email)
+
+    cond do
+      user && check_password(pass, user.credential.password_hash) ->
+        {:ok, user}
+      user ->
+        {:error, :unauthorized}
+      true ->
+        Comeonin.Pbkdf2.dummy_checkpw()
+        {:error, :not_found}
+    end
   end
 
   alias Rumbl.Accounts.Credential
@@ -136,5 +157,9 @@ defmodule Rumbl.Accounts do
   """
   def change_credential(%Credential{} = credential) do
     Credential.changeset(credential, %{})
+  end
+
+  def check_password(pass, check_pass) do
+    Comeonin.Pbkdf2.checkpw(pass, check_pass)
   end
 end

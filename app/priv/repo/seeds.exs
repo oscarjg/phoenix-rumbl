@@ -9,3 +9,28 @@
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
+alias Rumbl.Accounts.User
+alias Rumbl.Accounts
+alias Rumbl.Multimedia
+
+user = Accounts.get_user_by_email("oscarjg19@gmail.com")
+
+if (!user) do
+  user = User.registration_changeset(
+    %User{},
+    %{
+      :name     => "Oscar",
+      :username => "oscarjg",
+      :credential => %{
+        :email    => "oscarjg19@gmail.com",
+        :password => "123456"
+      }
+    }
+  )
+
+  Rumbl.Repo.insert!(user)
+end
+
+for category_name <- ~w(Action Gaming Sports Drama Romance Sci-fi) do
+  Multimedia.create_category(category_name)
+end

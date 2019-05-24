@@ -2,10 +2,11 @@ use Mix.Config
 
 # Configure your database
 config :rumbl, Rumbl.Repo,
-  username: "postgres",
-  password: "postgres",
+  username: System.get_env("PG_USER"),
+  password: System.get_env("PG_PASSWORD"),
   database: "rumbl_test",
-  hostname: "localhost",
+  hostname: System.get_env("PG_HOST"),
+  port: System.get_env("PG_PORT"),
   pool: Ecto.Adapters.SQL.Sandbox
 
 # We don't run a server during test. If one is required,

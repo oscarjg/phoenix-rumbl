@@ -13,9 +13,9 @@
   <tbody>
 <%= for video <- @videos do %>
     <tr>
-      <td><%= video. url %></td>
-      <td><%= video. title %></td>
-      <td><%= video. description %></td>
+      <td><%= video.url %></td>
+      <td><%= video.title %></td>
+      <td><%= video.description %></td>
 
       <td>
         <%= link "Show", to: Routes.video_path(@conn, :show, video) %>

@@ -17,3 +17,6 @@ config :rumbl, RumblWeb.Endpoint,
 
 # Print only warnings and errors during test
 config :logger, level: :warn
+
+# Password hashing
+config :pbkdf2_elixir, :rounds, 1

@@ -3,9 +3,9 @@
 <table>
   <thead>
     <tr>
-      <th> url</th>
-      <th> title</th>
-      <th> description</th>
+      <th>url</th>
+      <th>title</th>
+      <th>description</th>
 
       <th></th>
     </tr>

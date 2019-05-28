@@ -4,6 +4,8 @@ defmodule RumblWeb.UserSocket do
   ## Channels
   channel "videos:*", RumblWeb.VideoChannel
 
+  @max_age 2 * 7 * 24 * 60 * 60
+
   # Socket params are passed from the client and can
   # be used to verify and authenticate a user. After
   # verification, you can put default assigns into
@@ -15,9 +17,21 @@ defmodule RumblWeb.UserSocket do
   #
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
-  def connect(_params, socket, _connect_info) do
-    {:ok, socket}
+  def connect(%{"token" => token}, socket, _connect_info) do
+    case Phoenix.Token.verify(
+      socket,
+      "user token",
+      token,
+      max_age: @max_age
+    ) do
+      {:ok, user} ->
+        {:ok, assign(socket, :user, user)}
+      {:error, _reason} ->
+        :error
+    end
   end
+
+  def connect(_params, _socket, _connect_info), do: :error
 
   # Socket id's are topics that allow you to identify all sockets for a given user:
   #

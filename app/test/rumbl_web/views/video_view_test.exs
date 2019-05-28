@@ -23,9 +23,8 @@ defmodule RumblWeb.VideoViewTest do
     Enum.each(videos, fn video ->
       assert string_contains(content, Routes.video_path(conn, :show, video))
       assert string_contains(content, Routes.video_path(conn, :edit, video))
+      assert string_contains(content, Routes.watch_path(conn, :show, video))
       assert string_contains(content, video.title)
-      assert string_contains(content, video.description)
-      assert string_contains(content, video.url)
     end)
   end
 

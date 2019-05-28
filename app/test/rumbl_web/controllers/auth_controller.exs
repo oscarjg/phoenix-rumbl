@@ -99,4 +99,15 @@ defmodule RumblWeb.AuthControllerTest do
              conn
              |> Auth.login_by_email_and_pass("foo@g.com", "wrong_pass")
   end
+
+  test "authenticated user has a token", %{conn: conn} do
+    %{id: user_id} = user_fixture()
+
+    conn =
+      conn
+      |> put_session(:user_id, user_id)
+      |> Auth.call(Auth.init([]))
+
+    assert conn.assigns.user_token != ""
+  end
 end

@@ -1,18 +1,23 @@
 defmodule RumblWeb.VideoChannel do
   use RumblWeb, :channel
 
-  def join("videos:" <> video_id, _params, socket) do
+  def join("videos:" <> _video_id, _params, socket) do
     {:ok, socket}
   end
 
   def handle_in("new_annotation", params, socket) do
-    broadcast!(socket, "new_annotation", %{
-      user: %{username: "anom"},
-      body: params["body"],
-      at: params["at"],
-    })
+    case socket.assigns[:user] do
+      %{username: username} ->
+        broadcast!(socket, "new_annotation", %{
+          user: %{username: username},
+          body: params["body"],
+          at: params["at"],
+        })
 
-    {:reply, :ok, socket}
+        {:reply, :ok, socket}
+      _ ->
+        {:noreply, :error, socket}
+    end
   end
 
   def handle_info(:ping, socket) do

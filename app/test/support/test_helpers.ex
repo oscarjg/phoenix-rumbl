@@ -37,4 +37,18 @@ defmodule Rumbl.TestHelpers do
 
     video
   end
+
+  def annotation_fixture(%Accounts.User{} = user, %Multimedia.Video{} = video, attr \\ %{}) do
+    attr = Enum.into(
+      attr,
+      %{
+        body: "message #{System.unique_integer([:positive])}",
+        at: System.unique_integer([:positive])
+      }
+    )
+
+    {:ok, annotation} = Multimedia.annotate_video(user, video, attr)
+
+    annotation
+  end
 end

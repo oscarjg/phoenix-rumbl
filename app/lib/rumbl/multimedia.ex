@@ -57,7 +57,10 @@ defmodule Rumbl.Multimedia do
       ** (Ecto.NoResultsError)
 
   """
-  def get_video!(id), do: preload_user(Repo.get!(Video, id))
+  def get_video!(id) do
+    Repo.get!(Video, id)
+    |> preload_user()
+  end
 
   @doc """
   Creates a video.
@@ -156,5 +159,26 @@ defmodule Rumbl.Multimedia do
     Category
     |> Category.alphabetical()
     |> Repo.all()
+  end
+
+  alias Rumbl.Multimedia.Annotation
+
+  @doc """
+  Add video annotation
+  """
+  def annotate_video(%User{} = user, video_id, attr) do
+    %Annotation{video_id: video_id}
+    |> Annotation.changeset(attr)
+    |> put_user(user)
+    |> Repo.insert()
+  end
+
+  def list_annotations(%Video{} = video) do
+    query = from a in Ecto.assoc(video, :annotations),
+         order_by: [asc: a.at, asc: a.id],
+         limit: 500,
+         preload: [:user]
+
+    Repo.all(query)
   end
 end

@@ -4,6 +4,7 @@ defmodule Rumbl.MultimediaTest do
   alias Rumbl.Multimedia
   alias Rumbl.Multimedia.Category
   alias Rumbl.Multimedia.Video
+  alias Rumbl.Multimedia.Annotation
 
   describe "Categories" do
     test "list categories alphabetically" do
@@ -110,6 +111,28 @@ defmodule Rumbl.MultimediaTest do
       video = video_fixture(owner)
 
       assert %Ecto.Changeset{} = Multimedia.change_video(owner, video)
+    end
+  end
+
+  describe "Annotations" do
+    test "create annotation with user and video" do
+      user  = user_fixture()
+      video = video_fixture(user)
+
+      Multimedia.annotate_video(user, video.id, %{body: "foo message", at: 1234})
+
+      assert [%Annotation{body: "foo message"}] = Repo.all(Annotation)
+    end
+
+    test "list annotation from video in correct order" do
+      user  = user_fixture()
+      video = video_fixture(user)
+
+      annotation_fixture(user, video, %{at: 100})
+      annotation_fixture(user, video, %{at: 400})
+      annotation_fixture(user, video, %{at: 200})
+
+      assert [%Annotation{at: 100}, %Annotation{at: 200}, %Annotation{at: 400}] = Multimedia.list_annotations(video)
     end
   end
 end

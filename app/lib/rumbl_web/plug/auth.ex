@@ -22,7 +22,7 @@ defmodule RumblWeb.Plug.Auth do
   end
 
   def put_current_user_and_user_token(conn, user) do
-    token = Phoenix.Token.sign(conn, "user token", %{id: user.id, username: user.username})
+    token = Phoenix.Token.sign(conn, "user token", user.id)
 
     conn
     |> assign(:current_user, user)

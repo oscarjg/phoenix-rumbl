@@ -24,8 +24,8 @@ defmodule RumblWeb.UserSocket do
       token,
       max_age: @max_age
     ) do
-      {:ok, user} ->
-        {:ok, assign(socket, :user, user)}
+      {:ok, user_id} ->
+        {:ok, assign(socket, :user_id, user_id)}
       {:error, _reason} ->
         :error
     end

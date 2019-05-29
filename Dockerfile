@@ -12,7 +12,7 @@ RUN mix local.hex --force \
  && apt-get install -y inotify-tools \
  && apt-get install -y postgresql-client
 
-ENV APP_HOME /app
+ENV APP_HOME /rumbl_umbrella
 RUN mkdir -p $APP_HOME
 COPY ./entrypoint.sh /entrypoint.sh
 

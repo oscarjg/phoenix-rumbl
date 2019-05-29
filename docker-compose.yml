@@ -10,14 +10,14 @@ services:
       PG_PORT: 5432
       PG_HOST: db
     volumes:
-      - ./app:/app
+      - ./rumbl_umbrella:/rumbl_umbrella
     ports:
       - "4000:4000"
     depends_on:
       - db
     command:
       - /entrypoint.sh
-    working_dir: /app
+    working_dir: /rumbl_umbrella
 
   db:
     image: "postgres:9.6.3"

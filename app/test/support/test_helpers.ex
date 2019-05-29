@@ -38,7 +38,7 @@ defmodule Rumbl.TestHelpers do
     video
   end
 
-  def annotation_fixture(%Accounts.User{} = user, %Multimedia.Video{} = video, attr \\ %{}) do
+  def annotation_fixture(%Accounts.User{} = user, video_id, attr \\ %{}) do
     attr = Enum.into(
       attr,
       %{
@@ -47,7 +47,7 @@ defmodule Rumbl.TestHelpers do
       }
     )
 
-    {:ok, annotation} = Multimedia.annotate_video(user, video, attr)
+    {:ok, annotation} = Multimedia.annotate_video(user, video_id, attr)
 
     annotation
   end

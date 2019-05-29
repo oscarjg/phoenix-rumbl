@@ -10,18 +10,39 @@ let Video = {
     let playerId = element.getAttribute("data-player-id")
     let videoId  = element.getAttribute("data-id")
 
-    socket.connect()
-
     Player.init(element.id, playerId, () => {
       this.onReady(videoId, socket)
     })
   },
 
   onReady(videoId, socket){
+
+    socket.connect()
+
     let msgContainer = document.getElementById("msg-container")
     let msgInput     = document.getElementById("msg-input")
     let postButton   = document.getElementById("msg-submit")
-    let vidChannel   = socket.channel("videos:" + videoId)
+    let lastSeenId   = 0
+    let vidChannel   = socket.channel("videos:" + videoId, () => {
+      return {last_seen_id: lastSeenId}
+    })
+
+    vidChannel.on("new_annotation", resp => {
+      lastSeenId = resp.id
+      this.renderAnnotation(msgContainer, resp)
+    })
+
+    vidChannel.join()
+      .receive("ok", resp => {
+        let ids = resp.annotations.map((ann) => {ann.id})
+
+        if (ids.length > 0) {
+          lastSeenId = Math.max(...ids)
+        }
+
+        this.scheduleAnnotations(msgContainer, resp.annotations)
+      })
+      .receive("error", reason => console.log("error!", reason))
 
     postButton.addEventListener("click", event => {
       let payload = {
@@ -45,18 +66,6 @@ let Video = {
 
       Player.seekTo(seconds)
     })
-
-    vidChannel.on("new_annotation", resp => {
-      this.renderAnnotation(msgContainer, resp)
-    })
-
-    vidChannel.join()
-      .receive("ok", resp => {
-        console.log("joined!", resp)
-
-        this.scheduleAnnotations(msgContainer, resp.annotations)
-      })
-      .receive("error", reason => console.log("error!", reason))
   },
 
   esc(str){

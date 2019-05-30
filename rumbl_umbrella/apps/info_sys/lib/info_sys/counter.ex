@@ -14,7 +14,7 @@ defmodule InfoSys.Counter do
   end
 
   def init(initial_val) do
-    interval_process()
+    #interval_process()
     {:ok, initial_val}
   end
 

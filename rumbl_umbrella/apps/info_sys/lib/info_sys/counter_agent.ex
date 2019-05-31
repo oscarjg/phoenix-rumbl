@@ -1,5 +1,5 @@
 defmodule InfoSys.CounterAgent do
-  use Agent
+  use Agent, restart: :permanent
 
   @agent_name __MODULE__
 

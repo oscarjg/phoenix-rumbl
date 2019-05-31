@@ -10,13 +10,14 @@ defmodule InfoSys.Application do
     children = [
       # Starts a worker by calling: InfoSys.Worker.start_link(arg)
       # {InfoSys.Worker, arg}
-      Supervisor.child_spec({InfoSys.Counter, 5}, restart: :permanent),
-      Supervisor.child_spec({InfoSys.CounterAgent, 5}, restart: :permanent),
+      #{InfoSys.CounterAgent, 5},
+      InfoSys.Supervisor
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
-    opts = [strategy: :one_for_one, name: InfoSys.Supervisor]
+    opts = [strategy: :one_for_one]
+
     Supervisor.start_link(children, opts)
   end
 end

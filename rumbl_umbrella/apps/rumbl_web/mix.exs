@@ -46,7 +46,8 @@ defmodule RumblWeb.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:rumbl, in_umbrella: true},
-                                         ]
+      {:info_sys, in_umbrella: true},
+    ]
   end
 
   # Aliases are shortcuts or tasks specific to the current project.

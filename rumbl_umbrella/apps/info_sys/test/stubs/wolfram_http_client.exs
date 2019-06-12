@@ -1,7 +1,7 @@
 defmodule InfoSys.Stubs.WolframHttpClient do
 
-  @wolfram_results_xml File.read!("test/fixtures/wolfram_results.xml")
-  @wolfram_empty_xml File.read!("test/fixtures/wolfram_empty.xml")
+  @wolfram_results_xml File.read!(__DIR__ <> "/../fixtures/wolfram_results.xml")
+  @wolfram_empty_xml File.read!(__DIR__ <> "/../fixtures/wolfram_empty.xml")
 
   def request(url) do
     url = to_string(url)

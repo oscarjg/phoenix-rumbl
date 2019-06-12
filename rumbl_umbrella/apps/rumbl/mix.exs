@@ -40,8 +40,7 @@ defmodule Rumbl.MixProject do
       {:postgrex, ">= 0.0.0"},
       {:jason, "~> 1.0"},
       {:comeonin, "~> 4.1"},
-      {:pbkdf2_elixir, "~> 0.12"},
-      {:sweet_xml, "~> 0.6.5"}
+      {:pbkdf2_elixir, "~> 0.12"}
     ]
   end
 

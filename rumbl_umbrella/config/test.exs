@@ -20,3 +20,5 @@ config :logger, level: :warn
 
 # Password hashing
 config :pbkdf2_elixir, :rounds, 1
+
+import_config "../apps/info_sys/config/test.exs"

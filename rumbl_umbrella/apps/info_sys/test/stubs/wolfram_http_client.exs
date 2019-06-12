@@ -1,4 +1,4 @@
-defmodule InfoSysTest.Backends.WolframHTTPClient do
+defmodule InfoSys.Stubs.WolframHttpClient do
 
   @wolfram_results_xml File.read!("test/fixtures/wolfram_results.xml")
   @wolfram_empty_xml File.read!("test/fixtures/wolfram_empty.xml")

@@ -1,4 +1,4 @@
-defmodule InfoSysTest.CacheTest do
+defmodule InfoSys.CacheTest do
   use ExUnit.Case, async: true
   alias InfoSys.Cache
   @moduletag clear_interval: 100
